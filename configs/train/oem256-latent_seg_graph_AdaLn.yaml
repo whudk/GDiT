@@ -1,0 +1,48 @@
+data:
+  dataset: OEM
+  category: lmdb
+  resolution: 32
+  num_channels: 4
+  random_flip: True
+  root: F:/data/OpenEarthMap/Size_256
+  feat_path: None
+  train:
+    data_dir: /home/dk/data/oem/Size_256/train
+  val:
+    data_dir: /home/dk/data/oem/Size_256/val
+model:
+  precond: edm
+  params:
+    model_type: GDiT-XL/2
+    input_size: 32
+    in_channels: 4
+    num_classes: 768  # dim of clip
+    graph_tokens: 96
+    mask_ratio_fn: constant
+    text_dropout_prob: 0.5
+    node_dropout_prob: 0.5
+    seg_dropout_prob: 0.5
+    with_graph: True
+    fusion_type: AdaLn
+    mode: graph  #seg: seg only  graph:graph only  or seg with graph
+train:
+  tf32: False
+  amp: True
+  batchsize: 15   # batchsize per GPU
+  grad_accum: 1
+  epochs: 2000
+  lr: 5e-5
+  lr_rampup_kimg: 0
+  xflip: False
+  max_num_steps: 50_0000
+
+eval: # FID evaluation
+  batchsize: 50
+  ref_path: /home/dk/data/oem/Size_256/val/images
+
+log:
+  log_every: 10
+  ckpt_every: 5000
+  tag: pretrain 
+
+

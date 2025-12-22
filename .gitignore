@@ -1,0 +1,39 @@
+# IDE
+.idea/
+.vscode/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Environments
+.venv/
+venv/
+env/
+conda/
+
+# Training outputs / logs / checkpoints
+outputs/
+runs/
+logs/
+pretrained/
+*.pt
+*.pth
+*.ckpt
+*.bin
+openai/
+
+cache/
+apex-master/
+# Datasets / large files
+data/
+datasets/
+*.tif
+*.tiff
+*.npy
+*.npz
+
+# OS
+.DS_Store
+Thumbs.db
