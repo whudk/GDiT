@@ -42,7 +42,7 @@ python train.py ^
 python sample.py 
   --config .\configs\train\oem256-latent_seg_graph_with_graph_adaln.yaml 
   --gpu 0 
-  --outdir F:\M2I\comparision\GDiT_25_steps_OEMtest 
+  --outdir .\GDiT_25_steps_OEMtest 
   --use_clip 
   --with-graph 1 
   --version GDiT 
@@ -54,14 +54,65 @@ python sample.py
   --ckpt-path "path\to\your_checkpoint.pt"
   ```
 
-### Dataset Download:
+## 📦 Dataset (OEM)
 
+We provide the OEM dataset via Baidu Netdisk:
 
+- **Baidu Netdisk link:** https://pan.baidu.com/s/1UegGtMf7JylkE_4XIS-W3g?pwd=whdk  
+- **Extraction code:** `whdk`
 
+## 🔥 Pretrained Weights (OEM)
 
-## Dataset
+We provide an OEM pretrained checkpoint via Baidu Netdisk:
 
+- **Baidu Netdisk link:** https://pan.baidu.com/s/1qegh4KQ4ikPni5zZQROJ3g?pwd=whdk  
+- **Extraction code:** `whdk`
 
+## Train your dataset
+
+## 🏋️ Train Your Own Dataset
+
+Please organize your dataset in the following structure:
+
+```text
+your_data_dir/
+  train/
+    images/
+    labels/
+  val/
+    images/
+    labels/
+```
+Before training, you need two preprocessing steps:
+
+1) Generate VAE latents for images/ (saved to vae_feats/).
+```bash
+python scripts/generate_vae_feats.py \
+  --data_dir "your data_dir" \
+  --splits train val \
+  --out_name vae_feats
+```
+2) Convert semantic maps in labels/ into semantic graphs (saved to graphs/). 
+```bash
+python scripts/generate_graph_from_seg.py \
+  --data_dir "your data_dir"  \
+  --splits train val \
+  --out_name graph
+```
+3) After preprocessing, your directory should look like:
+```text
+your_data_dir/
+  train/
+    images/
+    labels/
+    vae_feats/
+    graphs/
+  val/
+    images/
+    labels/
+    vae_feats/
+    graphs/
+```
 
 
 ## Citation

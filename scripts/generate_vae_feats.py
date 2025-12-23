@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 from diffusers.models import AutoencoderKL
 import os
+import argparse
 from  tqdm import tqdm
 
 from torchvision import transforms
@@ -37,14 +38,62 @@ def generate_vae_feats(data_dir, outdir):
         save_path = os.path.join(outdir, save_name)
         np.save(save_path, x.cpu().numpy())
 
+def parse_args():
+    parser = argparse.ArgumentParser("Generate VAE features (latents) for dataset splits")
+
+    # 方式1：给 root，然后自动拼 train/val
+    parser.add_argument(
+        "--data_root",
+        type=str,
+        default=None,
+        help=r'Dataset root containing splits, e.g. F:\data\OpenEarthMap\Size_256'
+    )
+
+    # 方式2：分别指定 train/val 的目录（优先生效）
+    parser.add_argument("--train_dir", type=str, default=None, help="Path to train split directory")
+    parser.add_argument("--val_dir", type=str, default=None, help="Path to val split directory")
+
+    # 输出子目录名（默认在 split 目录下创建 vae_feats）
+    parser.add_argument("--out_name", type=str, default="vae_feats", help="Output folder name under each split")
+
+    # 要处理哪些 split
+    parser.add_argument("--splits", nargs="+", default=["train", "val"], help='Splits to process, e.g. train val')
+
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    data_val_dir = r"F:\data\OpenEarthMap\Size_256\val"
-    out_val_dir = r"F:\data\OpenEarthMap\Size_256\val\vae_feats"
-    os.makedirs(out_val_dir, exist_ok=True)
-    data_train_dir = r"F:\data\OpenEarthMap\Size_256\train"
-    out_train_dir = r"F:\data\OpenEarthMap\Size_256\train\vae_feats"
-    os.makedirs(out_train_dir, exist_ok=True)
-    generate_vae_feats(data_val_dir, out_val_dir)
-    print("done generating vae feats for val")
-    generate_vae_feats(data_train_dir, out_train_dir)
-    print("done generating vae feats for train")
+    args = parse_args()
+
+    # 解析 train/val 目录
+    train_dir = args.train_dir
+    val_dir = args.val_dir
+
+    if train_dir is None or val_dir is None:
+        if args.data_root is None:
+            raise ValueError(
+                "Please provide either --data_root (recommended) or both --train_dir and --val_dir."
+            )
+        # 如果用户没分别指定，就从 root 推断
+        if train_dir is None:
+            train_dir = os.path.join(args.data_root, "train")
+        if val_dir is None:
+            val_dir = os.path.join(args.data_root, "val")
+
+    # 逐 split 处理
+    for split in args.splits:
+        if split.lower() == "train":
+            data_dir = train_dir
+        elif split.lower() == "val":
+            data_dir = val_dir
+        else:
+            # 允许你未来扩展 test 等
+            if args.data_root is None:
+                raise ValueError(f"Unknown split '{split}' without --data_root to resolve it.")
+            data_dir = os.path.join(args.data_root, split)
+
+        out_dir = os.path.join(data_dir, args.out_name)
+        os.makedirs(out_dir, exist_ok=True)
+
+        generate_vae_feats(data_dir, out_dir)
+        print(f"done generating vae feats for {split} -> {out_dir}")
