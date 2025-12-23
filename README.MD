@@ -10,6 +10,23 @@ The GDiT Blocks refine spatial structures to ensure topological coherence and se
 ![Pipeline](image/network.png)
 
 
+
+## 🖼️ Visualization Results (OEM & OSM)
+
+### OEM
+![OEM Visualization](image/compare_01.png)
+
+### OSM
+![OSM Visualization](image/comparegeo_01.png)
+
+### Semantic Edit
+![Semantic Edit Result](image/semantic_edit_01.png)
+
+### Multi-level Control (R + G + S)
+![Multi-level Control (R+G+S)](image/multi-level_res1_01.png)
+
+
+
 ## Installation
 
     ```bash
