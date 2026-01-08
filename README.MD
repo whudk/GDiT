@@ -134,17 +134,18 @@ your_data_dir/
 
 ## Citation
 
-    ```bibtex
-    @misc{deng2025gdit,
-      title        = {GDiT: A Graph-Prior-Guided Diffusion Transformer for Semantic-Controllable Remote Sensing Image Synthesis},
-      author       = {Deng, Kai and Hu, Xiangyun and Xiong, Yibing and Liang, Aokun and Xu, Jiong},
-      year         = {2025},
-      month        = oct,
-      note         = {SSRN working paper},
-      howpublished = {Available at SSRN},
-      doi          = {10.2139/ssrn.5609404},
-      url          = {https://ssrn.com/abstract=5609404}
+    bibtex
+    @article{DENG2026105038,
+        title = {GDiT: A graph-prior-guided diffusion transformer for semantic-controllable remote sensing image synthesis},
+        journal = {International Journal of Applied Earth Observation and Geoinformation},
+        volume = {146},
+        pages = {105038},
+        year = {2026},
+        issn = {1569-8432},
+        doi = {https://doi.org/10.1016/j.jag.2025.105038},
+        url = {https://www.sciencedirect.com/science/article/pii/S1569843225006855},
+        author = {Kai Deng and Xiangyun Hu and Yibing Xiong and Aokun Liang and Jiong Xu}
     }
-    ```
+    
 
 
